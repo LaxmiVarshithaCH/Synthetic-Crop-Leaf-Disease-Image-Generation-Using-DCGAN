@@ -12,6 +12,10 @@ from utils.config import Config
 from utils.classifier_inference import load_classifier, predict_image
 from utils.monitoring import log_inference_latency, log_usage
 import time
+import io
+import zipfile
+import tempfile
+
 
 st.set_page_config(
     page_title="Crop Leaf GAN",
@@ -109,6 +113,7 @@ if generate_btn:
 
     n_cols = 8
     rows = math.ceil(num_images / n_cols)
+    generated_images = [] 
     predictions = []
 
     for r in range(rows):
@@ -142,12 +147,32 @@ if generate_btn:
                 )
 
                 img_pil = to_pil(img.cpu())
+
+                filename = f"synthetic_{idx:03d}.png"
+                generated_images.append((img_pil, filename))
+
                 cols[c].image(
                     img_pil,
                     caption=caption,
                     width="stretch"
                 )
 
+    zip_buffer = io.BytesIO()
+
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for img, name in generated_images:
+            img_bytes = io.BytesIO()
+            img.save(img_bytes, format="PNG")
+            zipf.writestr(name, img_bytes.getvalue())
+
+    zip_buffer.seek(0)
+
+    st.download_button(
+        label="📥 Download Generated Images (ZIP)",
+        data=zip_buffer,
+        file_name="synthetic_leaf_images.zip",
+        mime="application/zip"
+    )
     # -------------------------------------------------
     # Analytics
     # -------------------------------------------------
