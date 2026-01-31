@@ -93,8 +93,45 @@ Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/
 
 ---
 
+## 🏗️ Architecture Flow
+
+```mermaid
+flowchart TD
+    A[PlantVillage Dataset<br/>(Kaggle)] --> B[Data Scarcity Simulation]
+    B --> C[Preprocessing & Splitting<br/>(Train / Val / Test)]
+
+    C --> D[DCGAN Training<br/>(Unconditional)]
+    D --> E[Generator]
+    D --> F[Discriminator]
+
+    E --> G[Synthetic Leaf Images]
+    G --> H[Pseudo-Labeling<br/>(Baseline Classifier as Teacher)]
+    H --> I[Confidence Filtering<br/>(≥ 0.75)]
+
+    I --> J[Class-Consistent<br/>Synthetic Dataset]
+    C --> K[Real Training Data]
+
+    J --> L[Augmented Training Set]
+    K --> L
+
+    L --> M[Augmented Disease Classifier<br/>(ResNet-18)]
+
+    M --> N[Evaluation on Real Test Set<br/>(Accuracy, F1, CM)]
+    E --> O[Visualization & Analysis]
+    O --> P[Sample Grids]
+    O --> Q[Latent Interpolation]
+    O --> R[Class Distribution]
+
+    E --> S[Deployment Layer]
+    S --> T[CLI Inference Tool]
+    S --> U[Streamlit Web App]
+    S --> V[FastAPI REST API]
+```
+
+---
+
 ## 🧩 Modules & Design
-### 📦 I. Data Pipeline & Preprocessing
+### I. 📦 Data Pipeline & Preprocessing
 
 **Source:**
 
@@ -168,7 +205,7 @@ This structured pipeline ensures:
 ---
 
 
-### 🧩 Model Architecture
+### II. 🧩 Model Architecture
 
 This project uses a **Deep Convolutional Generative Adversarial Network (DCGAN)** tailored for **64×64 RGB crop leaf images**.  
 The architecture follows DCGAN best practices to capture fine-grained disease patterns such as lesions, texture irregularities, and color variations.
@@ -234,7 +271,7 @@ This architecture enables stable adversarial training and effective modeling of 
 
 ---
 
-### 🔁 Training
+### III. 🔁 Training
 
 This project implements a **stable and reproducible DCGAN training pipeline** designed to learn the visual distribution of crop leaf disease images under **data-scarce conditions**.
 
@@ -312,7 +349,7 @@ samples/
 ---
 
 
-### 🧪 Classifier Training & Evaluation
+### IV. 🧪 Classifier Training & Evaluation
 
 A central contribution of this project is demonstrating that **GAN-generated synthetic images can measurably improve crop disease classification performance** when integrated correctly.
 
@@ -424,7 +461,7 @@ A mild bias toward visually dominant diseases is observed — an expected behavi
 
 ---
 
-### 🚀 Deployment & Application Layer
+### V. 🚀 Deployment & Application Layer
 
 This project includes multiple deployment interfaces to make the trained DCGAN **accessible for interactive use, programmatic access, and offline generation**.
 
@@ -496,13 +533,13 @@ The deployment layer ensures that the system is:
 - Programmatically accessible (FastAPI)
 - Automation-ready (CLI)
 
-## 📈 Monitoring, Versioning & Continuous Improvement
+### VI. 📈 Monitoring, Versioning & Continuous Improvement
 
 To ensure reliability, reproducibility, and future extensibility, the system incorporates structured **monitoring**, **model versioning**, and clear paths for **continuous improvement**.
 
 ---
 
-### 🔍 Monitoring & Logging
+#### 🔍 Monitoring & Logging
 
 Monitoring is implemented to track both **model behavior** and **system usage** during training and deployment.
 
@@ -510,7 +547,7 @@ Monitoring is implemented to track both **model behavior** and **system usage** 
 - `utils/logger.py`
 - `utils/monitoring.py`
 
-#### Tracked Metrics
+##### Tracked Metrics
 
 - **GAN Training Metrics**
   - Generator and Discriminator loss per epoch
