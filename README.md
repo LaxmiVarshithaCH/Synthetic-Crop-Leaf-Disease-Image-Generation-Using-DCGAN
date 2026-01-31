@@ -97,35 +97,22 @@ Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/
 
 ```mermaid
 flowchart TD
-    A[PlantVillage Dataset<br/>] --> B[Data Scarcity Simulation]
-    B --> C[Preprocessing & Splitting<br/> - Train / Val / Test]
+    A[PlantVillage Dataset] --> B[Data Scarcity Simulation]
+    B --> C[DCGAN Training]
 
-    C --> D[DCGAN Training<br/>]
-    D --> E[Generator]
-    D --> F[Discriminator]
+    C --> D[Generator]
+    C --> E[Discriminator]
 
-    E --> G[Synthetic Leaf Images]
-    G --> H[Pseudo-Labeling<br/>Baseline Classifier as Teacher]
-    H --> I[Confidence Filtering<br/>≥ 0.75]
+    D --> F[Synthetic Images]
+    F --> G[Pseudo-Labeling<br/>Classifier as Teacher]
+    G --> H[Augmented Dataset]
 
-    I --> J[Class-Consistent<br/>Synthetic Dataset]
-    C --> K[Real Training Data]
+    H --> I[Augmented Classifier<br/>ResNet-18]
 
-    J --> L[Augmented Training Set]
-    K --> L
-
-    L --> M[Augmented Disease Classifier<br/>ResNet-18]
-
-    M --> N[Evaluation on Real Test Set<br/>Accuracy, F1, CM]
-    E --> O[Visualization & Analysis]
-    O --> P[Sample Grids]
-    O --> Q[Latent Interpolation]
-    O --> R[Class Distribution]
-
-    E --> S[Deployment Layer]
-    S --> T[CLI Inference Tool]
-    S --> U[Streamlit Web App]
-    S --> V[FastAPI REST API]
+    D --> J[Visualization]
+    D --> K[Deployment]
+    K --> L[Streamlit App]
+    K --> M[FastAPI API]
 ```
 
 ---
