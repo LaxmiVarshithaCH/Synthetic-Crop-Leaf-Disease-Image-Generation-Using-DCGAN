@@ -97,16 +97,16 @@ Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/
 
 ```mermaid
 flowchart TD
-    A[PlantVillage Dataset<br/>(Kaggle)] --> B[Data Scarcity Simulation]
-    B --> C[Preprocessing & Splitting<br/>(Train / Val / Test)]
+    A[PlantVillage Dataset<br/>] --> B[Data Scarcity Simulation]
+    B --> C[Preprocessing & Splitting<br/> - Train / Val / Test]
 
-    C --> D[DCGAN Training<br/>(Unconditional)]
+    C --> D[DCGAN Training<br/>]
     D --> E[Generator]
     D --> F[Discriminator]
 
     E --> G[Synthetic Leaf Images]
-    G --> H[Pseudo-Labeling<br/>(Baseline Classifier as Teacher)]
-    H --> I[Confidence Filtering<br/>(≥ 0.75)]
+    G --> H[Pseudo-Labeling<br/>Baseline Classifier as Teacher]
+    H --> I[Confidence Filtering<br/>≥ 0.75]
 
     I --> J[Class-Consistent<br/>Synthetic Dataset]
     C --> K[Real Training Data]
@@ -114,9 +114,9 @@ flowchart TD
     J --> L[Augmented Training Set]
     K --> L
 
-    L --> M[Augmented Disease Classifier<br/>(ResNet-18)]
+    L --> M[Augmented Disease Classifier<br/>ResNet-18]
 
-    M --> N[Evaluation on Real Test Set<br/>(Accuracy, F1, CM)]
+    M --> N[Evaluation on Real Test Set<br/>Accuracy, F1, CM]
     E --> O[Visualization & Analysis]
     O --> P[Sample Grids]
     O --> Q[Latent Interpolation]
