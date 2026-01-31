@@ -1,4 +1,4 @@
-🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
+# 🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
 
 A complete end-to-end system that uses **Deep Convolutional GANs (DCGANs)** to generate realistic crop leaf disease images and mitigate **data scarcity and class imbalance** in agricultural image classification.
 
@@ -177,7 +177,7 @@ The architecture follows DCGAN best practices to capture fine-grained disease pa
 Transforms a latent noise vector into a realistic crop leaf image.
 
 - **Input:** Latent vector  
-  \( z \in \mathbb{R}^{100} \sim \mathcal{N}(0, I) \)
+  z∼N(0,I)
 
 - **Architecture Overview:**
   - Progressive upsampling using **ConvTranspose2D** layers
@@ -256,7 +256,7 @@ Each training epoch follows the standard DCGAN adversarial procedure:
     - A batch of real crop leaf images is loaded
     - Images are normalized to \[−1, 1]
 2) **Noise Vector Sampling**
-    - Latent vectors sampled from \( z \in \mathbb{R}^{100} \sim \mathcal{N}(0, I) \)
+    - Latent vectors sampled from z∼N(0,I)
     - Latent dimension = 100
 3) Fake Image Generation
     - Synthetic images generated using:
@@ -391,7 +391,6 @@ Output:
 ```text
 figures/latent_interpolation.png
 ```
-<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/7dffde62-b315-4432-ad81-770c7c288a34" />
 <img width="431" height="53" alt="image" src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" />
 
 
@@ -419,7 +418,7 @@ Output:
 ```
 figures/gan_class_distribution.png
 ```
-<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" />
+<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" />
 
 A mild bias toward visually dominant diseases is observed — an expected behavior for **unconditional GANs**.
 
@@ -542,20 +541,11 @@ These logs enable:
 
 While the proposed system demonstrates clear benefits of GAN-based data augmentation, several limitations remain:
 
-- **Unconditional GAN Architecture**  
-  The DCGAN is trained without class conditioning, which prevents explicit control over the disease type during image generation.
-
-- **Bias Toward Dominant Visual Patterns**  
-  The generator may favor visually prominent disease features, leading to mild overrepresentation of certain classes.
-
-- **Pseudo-Labeling Noise**  
-  Although confidence-based filtering is applied, incorrect classifier predictions can still introduce limited label noise into the synthetic dataset.
-
-- **Limited Image Resolution**  
-  All images are generated at **64×64 resolution**, which restricts fine-grained lesion detail and vein-level texture representation.
-
-- **Incomplete GAN Evaluation Metrics**  
-  Fréchet Inception Distance (FID) was not implemented; evaluation relies primarily on Inception Score and qualitative analysis.
+- The DCGAN is trained without class conditioning, which prevents explicit control over the disease type during image generation.
+- The generator may favor visually prominent disease features, leading to mild overrepresentation of certain classes.
+- Although confidence-based filtering is applied, incorrect classifier predictions can still introduce limited label noise into the synthetic dataset.
+- All images are generated at **64×64 resolution**, which restricts fine-grained lesion detail and vein-level texture representation.
+- Fréchet Inception Distance (FID) was not implemented; evaluation relies primarily on Inception Score and qualitative analysis.
 
 These limitations highlight opportunities for architectural and methodological improvements in future work.
 
@@ -565,25 +555,11 @@ These limitations highlight opportunities for architectural and methodological i
 
 The system is designed to be modular and extensible. Potential future enhancements include:
 
-- **Conditional GANs (cDCGAN / ACGAN)**  
-  Enable direct control over disease type during generation
-
-- **Advanced GAN Architectures**
-  - WGAN-GP for improved stability
-  - StyleGAN for higher fidelity synthesis
-
-- **Higher-Resolution Image Generation**
-  - 128×128 and 256×256 leaf images
-
-- **Expanded Evaluation Metrics**
-  - Fréchet Inception Distance (FID)
-  - Human expert evaluation
-
+- Enable direct control over disease type during generation
+- **Advanced GAN Architectures** like WGAN-GP for improved stability, StyleGAN for higher fidelity synthesis
+- **Higher-Resolution Image Generation**: 128×128 and 256×256 leaf images
 - **Region- and Season-Specific Modeling**
-  - Adapt models to geographic and climatic conditions
-
 - **Automated Retraining Pipelines**
-  - Triggered by data drift or performance degradation
 
 ---
 
