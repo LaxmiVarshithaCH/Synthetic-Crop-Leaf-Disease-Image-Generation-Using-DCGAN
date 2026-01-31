@@ -66,9 +66,7 @@ def train():
             real_images = real_images.to(device)
             batch_size = real_images.size(0)
 
-            # ---------------------
-            # Train Discriminator
-            # ---------------------
+    
             dcgan.D.zero_grad()
 
             real_labels = torch.full(
@@ -92,9 +90,7 @@ def train():
             d_loss.backward()
             dcgan.d_optimizer.step()
 
-            # ---------------------
-            # Train Generator
-            # ---------------------
+  
             dcgan.G.zero_grad()
 
             gen_labels = torch.ones(
@@ -125,7 +121,7 @@ def train():
                 config.checkpoints_dir / f"D_epoch_{epoch:03d}.pth"
             )
 
-    print("✅ DCGAN Training Completed")
+    print("DCGAN Training Completed")
 
 
 if __name__ == "__main__":

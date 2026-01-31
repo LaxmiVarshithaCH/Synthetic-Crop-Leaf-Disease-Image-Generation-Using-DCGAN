@@ -37,7 +37,7 @@ def run_inference(num_images=50, output_dir="samples/inference"):
             img_pil = to_pil(img.cpu())
             img_pil.save(f"{output_dir}/synthetic_{i:03d}.png")
 
-    print(f"✅ {num_images} synthetic images saved to {output_dir}")
+    print(f"{num_images} synthetic images saved to {output_dir}")
 
 
 if __name__ == "__main__":

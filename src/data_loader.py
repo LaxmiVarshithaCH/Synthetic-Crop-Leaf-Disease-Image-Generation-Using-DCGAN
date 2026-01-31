@@ -8,10 +8,6 @@ from torchvision import transforms
 
 
 class PlantLeafDataset(Dataset):
-    """
-    Custom PyTorch Dataset for Plant Leaf Images (GAN training).
-    No labels are returned (GAN requirement).
-    """
 
     def __init__(self, root_dir, image_size=64):
         self.root_dir = Path(root_dir)
@@ -52,9 +48,7 @@ def get_dataloader(
     shuffle=True,
     num_workers=2
 ):
-    """
-    Returns PyTorch DataLoader for GAN training.
-    """
+
     dataset = PlantLeafDataset(
         root_dir=split_dir,
         image_size=image_size
@@ -70,9 +64,7 @@ def get_dataloader(
 
 
 def count_images(root_dir):
-    """
-    Utility to count total images in a directory.
-    """
+
     valid_ext = (".jpg", ".jpeg", ".png")
     count = 0
     for root, _, files in os.walk(root_dir):

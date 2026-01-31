@@ -2,9 +2,6 @@ import os
 import random
 import shutil
 
-# -------------------------------------------------
-# Configuration
-# -------------------------------------------------
 SOURCE_DIR = "plantvillage_dataset/color"
 TARGET_DIR = "limited_dataset"
 MAX_IMAGES_PER_CLASS = 100  
@@ -13,9 +10,6 @@ VALID_EXTENSIONS = (".jpg", ".jpeg", ".png")
 random.seed(42)
 os.makedirs(TARGET_DIR, exist_ok=True)
 
-# -------------------------------------------------
-# Process all classes automatically
-# -------------------------------------------------
 class_dirs = [
     d for d in os.listdir(SOURCE_DIR)
     if os.path.isdir(os.path.join(SOURCE_DIR, d))
@@ -50,7 +44,7 @@ for class_name in sorted(class_dirs):
         )
 
     total_copied += len(selected)
-    print(f"✅ {class_name:45s} → {len(selected)} images")
+    print(f"{class_name:45s} → {len(selected)} images")
 
 print("-" * 100)
 print(f"🎉 Limited dataset created")

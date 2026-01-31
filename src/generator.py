@@ -3,11 +3,6 @@ import torch.nn as nn
 
 
 class Generator(nn.Module):
-    """
-    DCGAN Generator
-    Input : latent vector z (N, latent_dim, 1, 1)
-    Output: RGB image (N, 3, 64, 64) in range [-1, 1]
-    """
 
     def __init__(self, latent_dim=100, channels=3):
         super().__init__()

@@ -44,4 +44,4 @@ for class_name in os.listdir(SOURCE_DIR):
                 os.path.join(out_dir, img)
             )
 
-print("🎉 Train / Validation / Test split completed")
+print("Train / Validation / Test split completed")

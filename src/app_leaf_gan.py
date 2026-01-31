@@ -13,18 +13,12 @@ from utils.classifier_inference import load_classifier, predict_image
 from utils.monitoring import log_inference_latency, log_usage
 import time
 
-# -------------------------------------------------
-# Page config (FULL WIDTH)
-# -------------------------------------------------
 st.set_page_config(
     page_title="Crop Leaf GAN",
     page_icon="🌱",
     layout="wide"
 )
 
-# -------------------------------------------------
-# Cached model loading
-# -------------------------------------------------
 @st.cache_resource
 def load_models():
     config = Config(
@@ -33,7 +27,6 @@ def load_models():
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # -------- Generator --------
     generator = Generator(
         latent_dim=config.train["dcgan"]["latent_dim"]
     ).to(device)
@@ -46,7 +39,6 @@ def load_models():
     )
     generator.eval()
 
-    # -------- Classifier --------
     dataset = ImageFolder(config.data_dir / "Train")
     class_names = dataset.classes
 
@@ -63,14 +55,14 @@ generator, classifier, class_names, device, config, logger = load_models()
 to_pil = transforms.ToPILImage()
 
 # -------------------------------------------------
-# Sidebar (VERY IMPORTANT FOR DEMO & REPORT)
+# Sidebar
 # -------------------------------------------------
 with st.sidebar:
     st.header("Model Summary")
 
-    st.metric("Baseline Accuracy", "95.96%")
-    st.metric("Augmented Accuracy", "96.67%")
-    st.metric("Inception Score", "3.19 ± 0.16")
+    st.metric("Baseline Accuracy", "62.98%")
+    st.metric("Augmented Accuracy", "78.24%")
+    st.metric("Inception Score", "3.065 ± 0.223")
 
     st.markdown("---")
     st.markdown(
@@ -113,7 +105,7 @@ generate_btn = st.button("Generate Images")
 # Image generation + interpretation
 # -------------------------------------------------
 if generate_btn:
-    st.subheader("🧪 Generated Images & Model Interpretation")
+    st.subheader("Generated Images & Model Interpretation")
 
     n_cols = 8
     rows = math.ceil(num_images / n_cols)
@@ -159,7 +151,7 @@ if generate_btn:
     # -------------------------------------------------
     # Analytics
     # -------------------------------------------------
-    st.subheader("📊 Generated Class Distribution")
+    st.subheader("Generated Class Distribution")
 
     df = pd.DataFrame(predictions, columns=["Predicted Class"])
     counts = df["Predicted Class"].value_counts()
@@ -183,9 +175,7 @@ if generate_btn:
         "It helps identify diversity, dominance of certain diseases, and possible GAN bias."
     )
 
-    # -------------------------------------------------
-    # Interpretation block (EXAM GOLD)
-    # -------------------------------------------------
+
     st.subheader("What Did the GAN Learn?")
 
     st.markdown(

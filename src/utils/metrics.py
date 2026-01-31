@@ -15,10 +15,6 @@ def get_inception_model(device):
 
 @torch.no_grad()
 def inception_score(images, device, splits=10):
-    """
-    Computes Inception Score for generated images.
-    images: Tensor [N, 3, 64, 64] in [-1, 1]
-    """
 
     model = inception_v3(pretrained=True).to(device)
     model.eval()

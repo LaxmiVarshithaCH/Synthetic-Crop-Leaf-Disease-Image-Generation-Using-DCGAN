@@ -17,9 +17,7 @@ from utils.config import Config
 # Utility: Save image grid
 # -------------------------------------------------
 def save_image_grid(images, path, nrow=8, title=None):
-    """
-    images: Tensor [N, 3, H, W] in [-1, 1]
-    """
+
     images = (images + 1) / 2  # [-1,1] → [0,1]
     grid = make_grid(images, nrow=nrow, padding=2)
 
@@ -34,7 +32,7 @@ def save_image_grid(images, path, nrow=8, title=None):
 
 
 # -------------------------------------------------
-# 1️⃣ GAN Sample Grid
+# GAN Sample Grid
 # -------------------------------------------------
 def visualize_samples(epoch=150, num_images=64):
     config = Config("configs/data_config.yaml", "configs/train_config.yaml")
@@ -59,11 +57,11 @@ def visualize_samples(epoch=150, num_images=64):
         title="GAN Generated Leaf Samples"
     )
 
-    print("✅ GAN sample grid saved")
+    print("GAN sample grid saved")
 
 
 # -------------------------------------------------
-# 2️⃣ Latent Space Interpolation
+# Latent Space Interpolation
 # -------------------------------------------------
 def latent_interpolation(steps=10):
     config = Config("configs/data_config.yaml", "configs/train_config.yaml")
@@ -96,24 +94,22 @@ def latent_interpolation(steps=10):
         title="Latent Space Interpolation"
     )
 
-    print("✅ Latent interpolation saved")
+    print("Latent interpolation saved")
 
 
 # -------------------------------------------------
-# 3️⃣ GAN + Classifier Interpretation
+# GAN + Classifier Interpretation
 # -------------------------------------------------
 def visualize_gan_with_classifier(num_images=16):
     config = Config("configs/data_config.yaml", "configs/train_config.yaml")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Load generator
     generator = Generator(latent_dim=config.train["dcgan"]["latent_dim"]).to(device)
     generator.load_state_dict(
         torch.load(config.checkpoints_dir / "G_epoch_150.pth", map_location=device)
     )
     generator.eval()
 
-    # Load classifier
     dataset = ImageFolder(config.data_dir / "Train")
     class_names = dataset.classes
 
@@ -159,13 +155,13 @@ def visualize_gan_with_classifier(num_images=16):
     plt.savefig(out_dir / "gan_classifier_interpretation.png")
     plt.close()
 
-    print("✅ GAN + classifier interpretation saved")
+    print("GAN + classifier interpretation saved")
 
     return predictions
 
 
 # -------------------------------------------------
-# 4️⃣ Distribution of Generated Classes
+# Distribution of Generated Classes
 # -------------------------------------------------
 def plot_generated_class_distribution(predictions):
     import pandas as pd
@@ -193,19 +189,16 @@ def plot_generated_class_distribution(predictions):
     plt.savefig(out_dir / "gan_class_distribution.png")
     plt.close()
 
-    print("✅ GAN class distribution plot saved")
+    print("GAN class distribution plot saved")
 
 # -------------------------------------------------
-# 5️⃣ GAN Training Curves (from CSV logs)
+# GAN Training Curves (from CSV logs)
 # -------------------------------------------------
 def plot_gan_training_curves(
     log_path="training_log.csv",
     out_path="figures/gan_training_curves.png"
 ):
-    """
-    Plots Generator and Discriminator losses from CSV logs.
-    Expected CSV columns: epoch, d_loss, g_loss
-    """
+
 
     log_path = Path(log_path)
     if not log_path.exists():
@@ -236,11 +229,8 @@ def plot_gan_training_curves(
     plt.savefig(out_path)
     plt.close()
 
-    print(f"✅ GAN training curves saved: {out_path}")
+    print(f"GAN training curves saved: {out_path}")
 
-# -------------------------------------------------
-# MAIN
-# -------------------------------------------------
 if __name__ == "__main__":
     visualize_samples()
     latent_interpolation()

@@ -3,17 +3,13 @@ from pathlib import Path
 
 
 def load_yaml(path):
-    """
-    Load a YAML configuration file.
-    """
+
     with open(path, "r") as f:
         return yaml.safe_load(f)
 
 
 class Config:
-    """
-    Central configuration loader.
-    """
+
 
     def __init__(self, data_config_path, train_config_path):
         self.data = load_yaml(data_config_path)

@@ -4,9 +4,6 @@ import torch.optim as optim
 
 
 class DCGAN:
-    """
-    Wrapper class for Generator + Discriminator
-    """
 
     def __init__(self, generator, discriminator, config, device):
         self.device = device

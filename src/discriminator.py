@@ -3,11 +3,6 @@ import torch.nn as nn
 
 
 class Discriminator(nn.Module):
-    """
-    DCGAN Discriminator
-    Input : RGB image (N, 3, 64, 64)
-    Output: Probability of being real (N, 1)
-    """
 
     def __init__(self, channels=3):
         super().__init__()

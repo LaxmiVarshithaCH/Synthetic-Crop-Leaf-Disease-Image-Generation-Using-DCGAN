@@ -10,9 +10,6 @@ from generator import Generator
 from utils.config import Config
 
 
-# -------------------------------------------------
-# Pseudo-label GAN images into REAL disease classes
-# -------------------------------------------------
 def pseudo_label_images(
     generator,
     teacher_model,
@@ -22,10 +19,7 @@ def pseudo_label_images(
     num_images=500,
     confidence_threshold=0.75
 ):
-    """
-    Generates unlabeled GAN images and assigns them to
-    existing disease classes using a trained teacher model.
-    """
+
 
     generator.eval()
     teacher_model.eval()
@@ -60,7 +54,7 @@ def pseudo_label_images(
                 )
                 accepted += 1
 
-    print(f"✅ Pseudo-labeled {accepted}/{num_images} synthetic images")
+    print(f"Pseudo-labeled {accepted}/{num_images} synthetic images")
 
 def remove_empty_class_dirs(root_dir):
     removed = 0
@@ -78,7 +72,7 @@ def remove_empty_class_dirs(root_dir):
             os.rmdir(class_path)
             removed += 1
 
-    print(f"🧹 Removed {removed} empty synthetic class folders")
+    print(f"Removed {removed} empty synthetic class folders")
 
 # -------------------------------------------------
 # Train classifier (baseline or augmented)
@@ -110,12 +104,11 @@ def train_classifier(use_synthetic=False):
     num_classes = len(class_names)
 
     # -------------------------------------------------
-    # SYNTHETIC AUGMENTATION (CORRECT WAY)
+    # SYNTHETIC AUGMENTATION
     # -------------------------------------------------
     if use_synthetic:
         print("🔧 Using GAN-based pseudo-labeled augmentation")
 
-        # ----- Load Generator -----
         gen = Generator(
             latent_dim=config.train["dcgan"]["latent_dim"]
         ).to(device)
@@ -141,7 +134,6 @@ def train_classifier(use_synthetic=False):
         teacher.to(device)
         teacher.eval()
 
-        # ----- Pseudo-label synthetic images -----
         synthetic_root = "data/synthetic_pseudo"
 
 
@@ -151,7 +143,7 @@ def train_classifier(use_synthetic=False):
             class_names=class_names,
             device=device,
             out_root=synthetic_root,
-            num_images=1000,              # ✅ increased
+            num_images=1000,              
             confidence_threshold=0.75
         )
 
@@ -166,9 +158,6 @@ def train_classifier(use_synthetic=False):
         train_dataset.samples.extend(synthetic_dataset.samples)
         train_dataset.targets.extend(synthetic_dataset.targets)
 
-    # -------------------------------------------------
-    # DataLoader
-    # -------------------------------------------------
     train_loader = DataLoader(
         train_dataset,
         batch_size=32,
@@ -176,12 +165,9 @@ def train_classifier(use_synthetic=False):
         num_workers=2
     )
 
-    print(f"📊 Number of classes: {num_classes}")
-    print(f"📊 Training samples: {len(train_dataset)}")
+    print(f"Number of classes: {num_classes}")
+    print(f"Training samples: {len(train_dataset)}")
 
-    # -------------------------------------------------
-    # Model (IDENTICAL for baseline & augmented)
-    # -------------------------------------------------
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, num_classes)
     model.to(device)
@@ -189,9 +175,6 @@ def train_classifier(use_synthetic=False):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
-    # -------------------------------------------------
-    # Training loop
-    # -------------------------------------------------
     epochs = 10
     model.train()
 
@@ -216,9 +199,6 @@ def train_classifier(use_synthetic=False):
             f"Loss: {running_loss/len(train_loader):.4f}"
         )
 
-    # -------------------------------------------------
-    # Save model
-    # -------------------------------------------------
     out_name = (
         "classifier_augmented.pth"
         if use_synthetic else
@@ -230,12 +210,9 @@ def train_classifier(use_synthetic=False):
         config.checkpoints_dir / out_name
     )
 
-    print(f"✅ Classifier saved: {out_name}")
+    print(f"Classifier saved: {out_name}")
 
 
-# -------------------------------------------------
-# MAIN
-# -------------------------------------------------
 if __name__ == "__main__":
     config = Config(
         "configs/data_config.yaml",
@@ -245,11 +222,11 @@ if __name__ == "__main__":
     baseline_ckpt = config.checkpoints_dir / "classifier_baseline.pth"
 
     if not baseline_ckpt.exists():
-        print("🚀 Training BASELINE classifier")
+        print("Training BASELINE classifier")
         train_classifier(use_synthetic=False)
     else:
-        print("✅ Baseline classifier already exists — skipping training")
+        print("Baseline classifier already exists — skipping training")
 
-    print("\n🚀 Training AUGMENTED classifier (pseudo-labeled GAN images)")
+    print("\nTraining AUGMENTED classifier (pseudo-labeled GAN images)")
     train_classifier(use_synthetic=True)
 

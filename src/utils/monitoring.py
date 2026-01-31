@@ -5,9 +5,6 @@ from datetime import datetime
 from pathlib import Path
 
 
-# -------------------------------------------------
-# Configuration
-# -------------------------------------------------
 LOG_DIR = Path("logs")
 LOG_DIR.mkdir(exist_ok=True)
 

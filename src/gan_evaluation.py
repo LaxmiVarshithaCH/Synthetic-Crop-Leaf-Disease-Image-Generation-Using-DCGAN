@@ -17,7 +17,6 @@ def evaluate_gan():
         "cuda" if torch.cuda.is_available() else "cpu"
     )
 
-    # Load trained Generator
     generator = Generator(
         latent_dim=config.train["dcgan"]["latent_dim"]
     ).to(device)
@@ -26,7 +25,6 @@ def evaluate_gan():
     generator.load_state_dict(torch.load(g_path, map_location=device))
     generator.eval()
 
-    # Generate fake images
     num_images = 500
     noise = torch.randn(
         num_images,
@@ -39,12 +37,10 @@ def evaluate_gan():
     with torch.no_grad():
         fake_images = generator(noise)
 
-    # Compute Inception Score
     is_mean, is_std = inception_score(fake_images, device)
 
     print(f"Inception Score: {is_mean:.3f} ± {is_std:.3f}")
 
-    # Save results
     results = pd.DataFrame([{
         "InceptionScore_mean": is_mean,
         "InceptionScore_std": is_std,
@@ -55,7 +51,7 @@ def evaluate_gan():
     eval_dir.mkdir(exist_ok=True)
 
     results.to_csv(eval_dir / "gan_inception_score.csv", index=False)
-    print("✅ GAN evaluation saved")
+    print("GAN evaluation saved")
 
 
 if __name__ == "__main__":

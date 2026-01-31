@@ -71,7 +71,7 @@ if __name__ == "__main__":
     acc_b, f1_b, _, classes = evaluate(base_path)
     acc_a, f1_a, _, _ = evaluate(aug_path)
 
-    print("\n📊 CLASSIFIER COMPARISON")
+    print("\nCLASSIFIER COMPARISON")
     print("------------------------")
     print(f"Baseline Accuracy : {acc_b:.4f}")
     print(f"Baseline F1-score : {f1_b:.4f}")
@@ -85,4 +85,4 @@ if __name__ == "__main__":
     ])
 
     report.to_csv("logs/classifier_comparison.csv", index=False)
-    print("\n✅ Results saved: logs/classifier_comparison.csv")
+    print("\nResults saved: logs/classifier_comparison.csv")
