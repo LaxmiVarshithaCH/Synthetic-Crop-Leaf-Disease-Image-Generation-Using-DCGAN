@@ -1,9 +1,11 @@
-🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
-===========================================================
+ 🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
+=============================================================
 
 A complete end-to-end system that uses **Deep Convolutional GANs (DCGANs)** to generate realistic crop leaf disease images and mitigate **data scarcity and class imbalance** in agricultural image classification.
 
 This repository contains everything required to **prepare data, train a DCGAN, generate synthetic images, augment classifiers, evaluate performance, and deploy the system via UI & API**.
+
+---
 
 📌 Why this project?
 --------------------
@@ -16,6 +18,7 @@ Image-based crop disease detection systems are widely used in modern agriculture
     
 *   ⚠️ High cost of expert-labeled images
     
+---
 
 Traditional augmentation (flip, rotate, color jitter) cannot capture **complex disease patterns** such as lesion texture, vein distortion, and color gradients.
 
@@ -43,12 +46,15 @@ Traditional augmentation (flip, rotate, color jitter) cannot capture **complex 
     *   Streamlit Web App
         
     *   FastAPI REST API
-        
+
+---
 
 🧠 System Overview
 ------------------
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   PlantVillage Dataset          ↓  Data Scarcity Simulation          ↓  DCGAN Training (Unconditional)          ↓  Synthetic Leaf Images          ↓  Pseudo-labeling (Classifier as Teacher)          ↓  Classifier Training          ↓  Evaluation + Deployment   `
+
+---
 
 📁 Repository Structure
 -----------------------
@@ -56,6 +62,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/  ├── configs/              # YAML configs (data & training)  ├── data/                 # Real + synthetic datasets  ├── checkpoints/          # GAN & classifier weights  ├── logs/                 # Training & inference logs  ├── samples/              # Generated image samples  ├── figures/              # Plots & visualizations  ├── src/                  # Core source code  │   ├── train_dcgan.py  │   ├── classifier_train.py  │   ├── classifier_eval.py  │   ├── visualization.py  │   ├── inference.py  │   ├── app_leaf_gan.py  │   ├── api_leaf_gan.py  │   └── utils/  ├── requirements.txt  └── README.md   `
 
 > 📌 Large datasets, checkpoints, logs, and generated images are excluded via .gitignore.
+
+---
 
 📦 Dataset
 ----------
@@ -92,6 +100,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python scripts/download_dataset.py   `
 
+---
+
 ⚙️ Data Scarcity Simulation
 ---------------------------
 
@@ -115,6 +125,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 Final structure:
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   data/Real/Train  data/Real/Validation  data/Real/Testing   `
+
+---
 
 🧩 Model Architecture
 ---------------------
@@ -140,6 +152,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 Loss: Binary Cross EntropyOptimizer: Adam (lr=0.0002, β₁=0.5)
 
+---
+
 🔁 Training
 -----------
 
@@ -155,6 +169,8 @@ What gets saved:
     
 *   Sample grids every N epochs
     
+
+---
 
 📊 Evaluation
 -------------
@@ -181,7 +197,8 @@ Generates:
 *   Latent interpolation
     
 *   Class distribution via classifier
-    
+
+---
 
 🧪 Classifier Training (Key Contribution)
 -----------------------------------------
@@ -227,6 +244,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 
 ModelAccuracyF1-ScoreBaseline62.9%0.61Augmented**78.2%0.77**
 
+---
+
 🚀 Deployment
 -------------
 
@@ -253,6 +272,8 @@ Endpoint:
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   GET /generate   `
 
+---
+
 ⚠️ Limitations
 --------------
 
@@ -264,8 +285,9 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
     
 *   Limited resolution (64×64)
     
-*   FID metric not implemented
-    
+*   FID metric not implemented  
+
+---
 
 🔮 Future Work
 --------------
@@ -280,6 +302,7 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
     
 *   Automated retraining pipelines
     
+---
 
 👥 Team
 -------
@@ -335,6 +358,8 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
     </td>
   </tr>
 </table>
+
+---
 
 📬 Feedback
 -----------
