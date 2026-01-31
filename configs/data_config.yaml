@@ -1,0 +1,27 @@
+dataset:
+  name: PlantVillage-Subset
+  description: >
+    Representative multi-crop, multi-disease subset from PlantVillage
+    to simulate real-world data scarcity.
+
+image:
+  size: 64
+  channels: 3
+  normalize: true
+  normalize_range: [-1, 1]
+
+splits:
+  train: 0.7
+  validation: 0.15
+  test: 0.15
+
+data_dir: data/Real
+
+classes:
+  - Tomato_Early_Blight
+  - Tomato_Bacterial_Spot
+  - Grape_Black_Rot
+  - Grape_Esca
+  - Potato_Late_Blight
+  - Corn_Common_Rust
+  - Healthy_Mixed
