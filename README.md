@@ -268,12 +268,6 @@ The training logic is implemented in `src/train_gan.py`
 python src/train_dcgan.py
 ```
 
-#### Training Pipeline Overview
-- The DCGAN is trained in an unconditional setting (no class labels)
-- Only real images from ```data/Real/Train/``` are used
-- The pipeline jointly optimizes: **Generator (G)** and **Discriminator (D)**
-- Training includes logging, checkpointing, and sample visualization
-
 #### Training Loop (Per Epoch)
 Each training epoch follows the standard DCGAN adversarial procedure:
 1) **Real Image Sampling**
@@ -365,11 +359,6 @@ Instead of introducing a separate synthetic class, a **pseudo-labeling pipeline*
 2) The baseline classifier acts as a teacher model
 3) Predicted labels with confidence ≥ 0.75 are accepted
 4) Synthetic images are stored directly in the corresponding disease folders
-
-This approach ensures:
-  - Clean class alignment
-  - No artificial label noise
-  - Seamless integration with standard ImageFolder loaders
 
 Synthetic data location: ```data/synthetic_pseudo/```
 
@@ -514,11 +503,6 @@ Example usage:
 ```bash
 python src/inference.py
 ```
-
-The deployment layer ensures that the system is:
-- User-friendly (Streamlit)
-- Programmatically accessible (FastAPI)
-- Automation-ready (CLI)
 
 ### VI. 📈 Monitoring, Versioning & Continuous Improvement
 
