@@ -1,4 +1,4 @@
-# 🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
+🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
 
 A complete end-to-end system that uses **Deep Convolutional GANs (DCGANs)** to generate realistic crop leaf disease images and mitigate **data scarcity and class imbalance** in agricultural image classification.
 
@@ -92,8 +92,9 @@ Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/
 > NOTE: Large datasets, checkpoints, logs, and generated images are excluded via ```.gitignore```.
 
 ---
+
 ## 🧩 Modules & Design
-### 📦 1) Module 1 - Data Pipeline & Preprocessing
+### 📦 I. Data Pipeline & Preprocessing
 
 **Source:**
 
@@ -121,9 +122,7 @@ Synthetic-Crop-Leaf-Disease-Image-Generation-Using-DCGAN/
      python scripts/download_dataset.py
      ```
 
----
-
-#### ⚙️ Data Scarcity Simulation
+#### Data Scarcity Simulation
 
 To reflect real-world agricultural data constraints, the original dataset was deliberately reduced to simulate **limited and imbalanced field data**.
 
@@ -141,17 +140,19 @@ python scripts/create_scarce_subset_all_classes.py
 
 #### 📂 Dataset Splitting
 The reduced dataset is split into non-overlapping subsets to prevent data leakage and ensure fair evaluation.
-- Split Ratio
-     - Training: 70% (GAN and classifier training)
-     - Validation: 15% (monitoring and tuning)
-     - Testing: 15% (final classifier evaluation)
 
-**For splitting, run:**
+**Split Ratio**
+     - **Training:** 70% (GAN and classifier training)
+     - **Validation:** 15% (monitoring and tuning)
+     - **Testing:** 15% (final classifier evaluation)
+
+**For splitting dataset, run:**
 ```bash
 python scripts/split_dataset.py
 ```
 
 #### 📁 Final Dataset Structure
+
 ```text
 data/Real/
 ├── Train/
@@ -165,7 +166,6 @@ This structured pipeline ensures:
 - Fair comparison between baseline and augmented models
 
 ---
-
 
 
 ### 🧩 Model Architecture
@@ -197,16 +197,22 @@ Transforms a latent noise vector into a realistic crop leaf image.
                                  └─ ConvTranspose2D (64 → 3, k=4, s=2, p=1)
                                      └─ Tanh → (3, 64, 64)
 ```
-- Output: **64 × 64 × 3 RGB image**, pixel range **\[−1, 1]**
+
+- Output:
+  **64 × 64 × 3 RGB image**, pixel range **\[−1, 1]**
+
 #### Discriminator (D)
 Distinguishs between real and synthetic crop leaf images.
 
-- **Input:** 64 × 64 × 3 RGB image
+- **Input:**
+  64 × 64 × 3 RGB image
+  
 - **Architecture Overview:**
-   - Stride-based downsampling using Conv2D
-   - LeakyReLU (0.2) activations
-   - Batch Normalization for stability
-   - Final Sigmoid output for real/fake probability
+   - Stride-based downsampling using **Conv2D**
+   - **LeakyReLU (0.2)** activations
+   - **Batch Normalization** for stability
+   - Final **Sigmoid** output for real/fake probability
+
 ```text
 Input Image (3, 64, 64)
  └─ Conv2D (3 → 64, k=4, s=2, p=1) + LeakyReLU
@@ -220,7 +226,9 @@ Input Image (3, 64, 64)
                                  └─ Conv2D (512 → 1, k=4, s=1, p=0)
                                      └─ Sigmoid → P(real)
 ```
-- Output: Scalar probability indicating whether the image is real or fake
+
+- **Output:**
+  Scalar probability indicating whether the image is real or fake
 
 This architecture enables stable adversarial training and effective modeling of complex crop leaf disease characteristics under data-scarce conditions.
 
@@ -230,7 +238,8 @@ This architecture enables stable adversarial training and effective modeling of 
 
 This project implements a **stable and reproducible DCGAN training pipeline** designed to learn the visual distribution of crop leaf disease images under **data-scarce conditions**.
 
-The training logic is implemented in:
+The training logic is implemented in `src/train_gan.py`
+**To train the DC GAN, run:**
 ```bash
 python src/train_dcgan.py
 ```
@@ -238,42 +247,42 @@ python src/train_dcgan.py
 #### Training Pipeline Overview
 - The DCGAN is trained in an unconditional setting (no class labels)
 - Only real images from ```data/Real/Train/``` are used
-- The pipeline jointly optimizes: Generator (G) and Discriminator (D)
+- The pipeline jointly optimizes: **Generator (G)** and **Discriminator (D)**
 - Training includes logging, checkpointing, and sample visualization
 
 #### Training Loop (Per Epoch)
 Each training epoch follows the standard DCGAN adversarial procedure:
-1) Real Image Sampling
-- A batch of real crop leaf images is loaded
-- Images are normalized to \[−1, 1]
-2) Noise Vector Sampling
-- Latent vectors sampled from z∼N(0,I)
-- Latent dimension = 100
-Fake Image Generation
-3) Synthetic images generated using:
-- fake_images = Generator(z)
+1) **Real Image Sampling**
+    - A batch of real crop leaf images is loaded
+    - Images are normalized to \[−1, 1]
+2) **Noise Vector Sampling**
+    - Latent vectors sampled from \( z \in \mathbb{R}^{100} \sim \mathcal{N}(0, I) \)
+    - Latent dimension = 100
+3) Fake Image Generation
+    - Synthetic images generated using:
+        `fake_images = Generator(z)`
 4) Discriminator Training
-- Trained on:
-  - Real images labeled as 0.9 (label smoothing)
-  - Fake images labeled as 0
-Loss: Binary Cross-Entropy (BCE)
+    - Trained on:
+      - Real images labeled as **0.9** (label smoothing)
+      - Fake images labeled as **0**
+    - Loss: **Binary Cross-Entropy (BCE)**
 5) Generator Training
-- Discriminator weights are frozen
-- Generator optimized to maximize: D(G(z)) ≈ 1
+    - Discriminator weights are frozen
+    - Generator optimized to maximize: `D(G(z)) ≈ 1`
 
 #### Training Stabilization Techniques
 To ensure stable convergence and prevent mode collapse, the following techniques are applied:
-- Label smoothing (real = 0.9)
-- Strided convolutions instead of pooling layers
-- Batch Normalization in both Generator and Discriminator
+- **Label smoothing** (real = 0.9)
+- **Strided convolutions** instead of pooling layers
+- **Batch Normalization** in both Generator and Discriminator
 - Adam Optimizer
-  - Learning rate: 0.0002
-  - β₁ = 0.5, β₂ = 0.999
+  - Learning rate: `0.0002`
+  - β₁ = `0.5`, β₂ = `0.999`
 
 #### Checkpointing & Logging
 
 ##### Checkpoints
-Generator and Discriminator weights are saved every 50 epochs:
+Generator and Discriminator weights are saved every **50 epochs**:
 ```text
 checkpoints/
 ├── G_epoch_050.pth
@@ -285,54 +294,20 @@ checkpoints/
 ```
 
 ##### Training Logs
-Generator and Discriminator losses logged after every epoch
-Stored as CSV for reproducibility and visualization: ```logs/training_log.csv```
-Sample Visualization
-Image grids generated periodically to visually inspect training progress:
+- Generator and Discriminator losses logged after every epoch
+- Stored as CSV for reproducibility and visualization: ```logs/training_log.csv```
+<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/84d2fdf4-4f31-4582-ac0b-b5b967011757" />
+
+
+##### Sample Visualization
+- Image grids generated periodically to visually inspect training progress:
 ```text
 samples/
 ├── samples_epoch_100.png
 └── samples_epoch_150.png
 ```
-
-#### Evaluation & Visualization
-
-##### GAN Evaluation
-Quantitative evaluation of generated images is performed using: 
-```bash
-python src/gan_evaluation.py
-```
-- Metric Used:
-  - Inception Score (IS)
-  - **IS ≈ 3.0 ± 0.23**
-This indicates reasonable image diversity and visual realism suitable for data augmentation.
-
-##### Visualization & Analysis
-Comprehensive visual analysis is performed using: 
-```bash
-python src/visualization.py
-```
-
-This script generates:
-- GAN training loss curves
-- Generated sample grids
-- Latent space interpolation
-- Classifier-based class distribution of GAN outputs
-
-Key outputs:
-```text
-figures/
-├── gan_training_curves.png
-├── latent_interpolation.png
-├── gan_classifier_interpretation.png
-└── gan_class_distribution.png
-```
-
-These visualizations confirm:
-- Stable adversarial training
-- Smooth latent space transitions
-- No observable mode collapse
-- Mild class bias expected in unconditional GANs
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/dfef0442-afd3-429a-ac99-ef45d04aba39" />
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/d4f43d47-2133-4d47-a1e9-69f3730e832f" />
 
 ---
 
@@ -351,52 +326,59 @@ The baseline model establishes performance using **real data only**.
 - Loss function: Cross-Entropy Loss
 - Output classes: All crop–disease categories
 
-**Training**
+**To train the classifier, run:**
 ```bash
 python src/classifier_train.py
 ```
+
 Saved model: ```checkpoints/classifier_baseline.pth```
 
 #### GAN-Augmented Classifier (Pseudo-Labeling Strategy)
-Instead of introducing a separate synthetic class, a pseudo-labeling pipeline is used to ensure class-consistent augmentation.
+Instead of introducing a separate synthetic class, a **pseudo-labeling pipeline** is used to ensure class-consistent augmentation.
+
 ##### Pseudo-Labeling Pipeline
-- DCGAN generates unlabeled synthetic leaf images
-- The baseline classifier acts as a teacher model
-- Predicted labels with confidence ≥ 0.75 are accepted
-- Synthetic images are stored directly in the corresponding disease folders
-- This approach ensures:
+1) DCGAN generates unlabeled synthetic leaf images
+2) The baseline classifier acts as a teacher model
+3) Predicted labels with confidence ≥ 0.75 are accepted
+4) Synthetic images are stored directly in the corresponding disease folders
+
+This approach ensures:
   - Clean class alignment
   - No artificial label noise
   - Seamless integration with standard ImageFolder loaders
-- Synthetic data location: ```data/synthetic_pseudo/```
-Training:
+
+Synthetic data location: ```data/synthetic_pseudo/```
+
+**To train the GAN-Augmented Classifier, run:**
 ```bash
 python src/classifier_train.py
 ```
 Saved model: ```checkpoints/classifier_augmented.pth```
 
 #### Classification Results
-Evaluation is performed on a held-out real test set to ensure fairness.
+Evaluation is performed on a **held-out real test set** to ensure fairness.
 
 | Model          | Accuracy    | F1-Score  |
 |----------------|-------------|-----------|
 | Baseline       | 62.9%       | 0.61      |
 | GAN-Augmented  | **78.2%**   | **0.77**  |
 
-Key Observation: 
-GAN-based augmentation produces a substantial improvement in both accuracy and F1-score, with the largest gains observed for under-represented disease classes.
+**Key Observation:**
+GAN-based augmentation produces a **substantial improvement in both accuracy and F1-score**, with the largest gains observed for under-represented disease classes.
 
 #### GAN & System Evaluation
 
 ##### GAN-Level Evaluation
-1) Visual Inspection
+**Visual Inspection**
 - Realistic leaf shapes and textures
 - Plausible lesion patterns and color gradients
 - No obvious checkerboard or collapse artifacts
-Script:
+
+**To visulaize, run:**
 ```bash
 python src/visualization.py
 ```
+
 Outputs:
 - Sample grids
 - Latent space interpolation images
@@ -405,18 +387,22 @@ Outputs:
 Smooth interpolation between latent vectors demonstrates:
 - Continuity in the learned latent space
 - Meaningful semantic transitions between disease patterns
-Output
+Output:
 ```text
 figures/latent_interpolation.png
 ```
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/7dffde62-b315-4432-ad81-770c7c288a34" />
+<img width="431" height="53" alt="image" src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" />
+
 
 ##### Quantitative Evaluation
 Metric: **Inception Score (IS)**
-Script:
+
+**To evalute GAN, run:**
 ```bash
 python src/gan_evaluation.py
 ```
-Result
+Result:
 **IS ≈ 3.0 ± 0.23**
 This indicates:
 - Reasonable image diversity
@@ -424,14 +410,18 @@ This indicates:
 
 ##### Diversity & Bias Analysis
 GAN-generated images are passed through the trained classifier to analyze output distribution.
+
 Purpose
 - Detect mode dominance
 - Identify over-represented disease patterns
+
 Output:
 ```
 figures/gan_class_distribution.png
 ```
-A mild bias toward visually dominant diseases is observed — an expected behavior for unconditional GANs.
+<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" />
+
+A mild bias toward visually dominant diseases is observed — an expected behavior for **unconditional GANs**.
 
 ---
 
@@ -441,20 +431,25 @@ This project includes multiple deployment interfaces to make the trained DCGAN *
 
 #### 🖥️ Streamlit Web Application
 
-**Script:** `src/app_leaf_gan.py`
+Script: `src/app_leaf_gan.py`
 
-Run the web application locally:
+**To run the web application locally:**
 
 ```bash
 streamlit run src/app_leaf_gan.py
 ```
 
 Features
-- Generate synthetic crop leaf disease images using the trained DCGAN
-- Classifier-based interpretation of generated images
-- Class distribution visualization to analyze GAN diversity and bias
-- Real-time inference analytics (latency and usage logging)
-- Option to download generated images as a ZIP file
+- Generate **synthetic crop leaf disease images** using the trained DCGAN
+- **Classifier-based interpretation** of generated images
+- **Class distribution visualization** to analyze GAN diversity and bias
+- **Real-time inference analytics** (latency and usage logging)
+- Option to **download generated images as a ZIP file**
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/ba3a9143-7dbb-40e6-96fb-9228429cb031" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5bce5b6c-1941-44b1-8217-415e41461a4a" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5f616652-fd52-4034-bd69-c60a07625b20" />
+
+
 This interface is designed for:
 - Demonstrations
 - Educational use
@@ -463,7 +458,7 @@ This interface is designed for:
 #### 🌐 REST API (FastAPI)
 Script: ```src/api_leaf_gan.py```
 
-Start the API server:
+**To start the API server, run:**
 ```bash
 uvicorn src.api_leaf_gan:app --reload
 ```
@@ -471,29 +466,32 @@ Available Endpoints
 ```bash
 GET /generate
 ```
-- Generates synthetic crop leaf images
-- Returns images encoded in Base64
-- Supports configurable batch sizes
+
+    - Generates synthetic crop leaf images
+    - Returns images encoded in Base64
+    - Supports configurable batch sizes
   
 Additional Features
-- Logs inference latency
-- Tracks API usage statistics
-  
-Designed for integration with external agritech or research systems
+- Logs **inference latency**
+- Tracks **API usage statistics**
+- Designed for integration with external agritech or research systems
 
 #### 🧪 CLI Inference Tool
 Script: ```src/inference.py```
 
-This tool enables offline batch generation of synthetic images without a UI.
+This tool enables **offline batch generation** of synthetic images without a UI.
 
 Use cases include:
+
 - Dataset augmentation
 - Research experiments
 - Automated pipelines
+
 Example usage:
 ```bash
 python src/inference.py
 ```
+
 The deployment layer ensures that the system is:
 - User-friendly (Streamlit)
 - Programmatically accessible (FastAPI)
