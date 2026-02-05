@@ -314,8 +314,12 @@ checkpoints/
 ##### Training Logs
 - Generator and Discriminator losses logged after every epoch
 - Stored as CSV for reproducibility and visualization: ```logs/training_log.csv```
-<img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/84d2fdf4-4f31-4582-ac0b-b5b967011757" />
-
+<!-- <img width="800" height="500" alt="image" src="https://github.com/user-attachments/assets/84d2fdf4-4f31-4582-ac0b-b5b967011757" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/84d2fdf4-4f31-4582-ac0b-b5b967011757" width="800" height="500" alt="Training Log"/>
+  <br>
+  <em>Training Losses for Generator and Discriminator</em>
+</p>
 
 ##### Sample Visualization
 - Image grids generated periodically to visually inspect training progress:
@@ -324,11 +328,21 @@ samples/
 ├── samples_epoch_100.png
 └── samples_epoch_150.png
 ```
-<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/dfef0442-afd3-429a-ac99-ef45d04aba39" />
-<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/d4f43d47-2133-4d47-a1e9-69f3730e832f" />
+<!-- <img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/dfef0442-afd3-429a-ac99-ef45d04aba39" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/dfef0442-afd3-429a-ac99-ef45d04aba39" width="800" height="800" alt="Samples at Epoch 100"/>
+  <br>
+  <em>Samples at Epoch 100</em>
+</p>
+<!-- <img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/d4f43d47-2133-4d47-a1e9-69f3730e832f" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d4f43d47-2133-4d47-a1e9-69f3730e832f" width="800" height="800" alt="Samples at Epoch 150"/>
+  <br>
+  <em>Samples at Epoch 150</em>
+</p>
+
 
 ---
-
 
 ### IV. 🧪 Classifier Training & Evaluation
 
@@ -404,8 +418,12 @@ Output:
 ```text
 figures/latent_interpolation.png
 ```
-<img width="431" height="53" alt="image" src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" />
-
+<!-- <img width="431" height="53" alt="image" src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" width="500" height="100" alt="Latent Space Interpolation"/>
+  <br>
+  <em>Latent Space Interpolation</em>
+</p>
 
 ##### Quantitative Evaluation
 Metric: **Inception Score (IS)**
@@ -431,8 +449,12 @@ Output:
 ```
 figures/gan_class_distribution.png
 ```
-<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" />
-
+<!-- <img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/00509027-0c3b-43e3-a456-aed8a4633524" width="800" height="400" alt="Generated samples class distribution"/>
+  <br>
+  <em>Generated Samples Class Distribution</em>
+</p>
 A mild bias toward visually dominant diseases is observed — an expected behavior for **unconditional GANs**.
 
 ---
@@ -457,11 +479,24 @@ Features
 - **Class distribution visualization** to analyze GAN diversity and bias
 - **Real-time inference analytics** (latency and usage logging)
 - Option to **download generated images as a ZIP file**
-<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/ba3a9143-7dbb-40e6-96fb-9228429cb031" />
-<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5bce5b6c-1941-44b1-8217-415e41461a4a" />
-<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5f616652-fd52-4034-bd69-c60a07625b20" />
-
-
+<!-- <img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/ba3a9143-7dbb-40e6-96fb-9228429cb031" /> -->
+<!-- <img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5bce5b6c-1941-44b1-8217-415e41461a4a" /> -->
+<!-- <img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/5f616652-fd52-4034-bd69-c60a07625b20" /> -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ba3a9143-7dbb-40e6-96fb-9228429cb031" width="2940" height="1912" alt="Streamlit UI"/>
+  <br>
+  <em>Streamlit UI - Synthetic Images Generation</em>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5bce5b6c-1941-44b1-8217-415e41461a4a" width="2940" height="1912" alt="Streamlit UI"/>
+  <br>
+  <em>Streamlit UI - Synthetic Images Class Distribution Visualization</em>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5f616652-fd52-4034-bd69-c60a07625b20" width="2940" height="1912" alt="Streamlit UI"/>
+  <br>
+  <em>Streamlit UI - Synthetic Images Class Distribution and Download as .zip option</em>
+</p>
 This interface is designed for:
 - Demonstrations
 - Educational use
