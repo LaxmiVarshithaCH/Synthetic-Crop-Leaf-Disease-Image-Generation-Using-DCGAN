@@ -539,11 +539,12 @@ Example usage:
 python src/inference.py
 ```
 
+---
+
 ### VI. 📈 Monitoring, Versioning & Continuous Improvement
 
 To ensure reliability, reproducibility, and future extensibility, the system incorporates structured **monitoring**, **model versioning**, and clear paths for **continuous improvement**.
 
----
 
 #### 🔍 Monitoring & Logging
 
