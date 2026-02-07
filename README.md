@@ -420,7 +420,7 @@ figures/latent_interpolation.png
 ```
 <!-- <img width="431" height="53" alt="image" src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" /> -->
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" width="500" height="100" alt="Latent Space Interpolation"/>
+  <img src="https://github.com/user-attachments/assets/8c3ed246-9399-40d7-8002-4bb21e88adc5" width="700" height="200" alt="Latent Space Interpolation"/>
   <br>
   <em>Latent Space Interpolation</em>
 </p>
