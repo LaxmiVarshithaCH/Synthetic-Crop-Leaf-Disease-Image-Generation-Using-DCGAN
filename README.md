@@ -1,4 +1,4 @@
-# 🌱 Synthetic Crop Leaf Disease Image Generation using DCGAN
+# 🌱 Project 3: Synthetic Crop Leaf Disease Image Generation using DCGAN
 
 A complete end-to-end system that uses **Deep Convolutional GANs (DCGANs)** to generate realistic crop leaf disease images and mitigate **data scarcity and class imbalance** in agricultural image classification.
 
